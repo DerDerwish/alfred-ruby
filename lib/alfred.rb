@@ -89,7 +89,7 @@ class Node
   end
   
   def get_mac_addresses()
-    addresses = self.secondary_mac_addresses
+    addresses = self.secondary_mac_addresses.clone
     addresses.push(self.primary_mac_address)
     return addresses
   end
