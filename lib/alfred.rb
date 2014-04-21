@@ -1,5 +1,3 @@
-#require 'json'
-
 class Alfred
   attr_accessor :filename, :filetype, :graph
   
