@@ -63,7 +63,13 @@ class Graph
   end
   
   def get_node_by_mac_address(mac_address)
-    #return self.nodes.select(|a| a.get_primary_mac_address().equals(mac_address))
+    self.nodes.each do |node|
+      if node.get_mac_addresses().include?(mac_address) then
+        return node
+      end
+    end
+    
+    return nil
   end
   
 end
@@ -80,6 +86,12 @@ class Node
   
   def get_primary_mac_address()
     return self.primary_mac_address
+  end
+  
+  def get_mac_addresses()
+    addresses = self.secondary_mac_addresses
+    addresses.push(self.primary_mac_address)
+    return addresses
   end
   
   def add_client(mac_address)
