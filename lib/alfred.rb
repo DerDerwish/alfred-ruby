@@ -11,10 +11,10 @@ class Alfred
   
   # read file and return the updated graph
   def update()
-    content = ""
+    content = []
     file = File.open(@filename, "r") do |f|
       f.each_line do |line|
-        content += line
+        content.push(line)
       end
     end
     if @filetype == ".dot" then
@@ -35,18 +35,25 @@ class Alfred
     primaries = []
     secondaries = []
     clients = []
-    data.each_line do |line|
+    data.each do |line|
       if line.start_with?('{ "primary" :') then
         primaries.push(line.split('"')[3])
       elsif line.start_with?('{ "secondary" :') then
         secondaries.push([line.split('"')[3],line.split('"')[7]])
-      elsif line.end_with?(': "TT" }')
-        Clients.push(line.split('"')[7])
+      elsif line.end_with?(": \"TT\" }\n")
+        clients.push([line.split('"')[3],line.split('"')[7]])
       end
     end
     
+    puts 'clients:'
+    puts clients.length
+    
     primaries.each do |primary|
       graph.add_node(primary)
+    end
+    
+    clients.each do |client|
+      graph.get_node_by_mac_address(client[0]).add_client(client[1])
     end
     
     return graph
@@ -115,4 +122,8 @@ end
 
 class Client
   attr_accessor :mac_address
+  
+  def initialize(mac_address)
+    @mac_address = mac_address
+  end
 end
