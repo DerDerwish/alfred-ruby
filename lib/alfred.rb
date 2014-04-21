@@ -43,6 +43,10 @@ class Alfred
       end
     end
     
+    primaries.each do |primary|
+      graph.add_node(primary)
+    end
+    
     return graph
   end
 end
