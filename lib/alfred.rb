@@ -59,7 +59,7 @@ class Graph
   end
   
   def add_node(mac_address)
-    self.nodes.push(Client.new(mac_address))
+    self.nodes.push(Node.new(mac_address))
   end
   
   def get_node_by_mac_address(mac_address)
